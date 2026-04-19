@@ -19,13 +19,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
-                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
+                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register", "/h2-console/**").permitAll() // 👈 ADD THIS
+                        .requestMatchers("/auth/register","/h2-console/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults()); // default login page
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/h2-console/**")
+                )
+                .formLogin(Customizer.withDefaults());
 
         return http.build();
     }

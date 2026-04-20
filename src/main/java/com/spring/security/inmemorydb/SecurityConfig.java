@@ -28,6 +28,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/h2-console/**")
                 )
+                .csrf(csrf -> csrf.disable())
                 .formLogin(Customizer.withDefaults());
 
         return http.build();
